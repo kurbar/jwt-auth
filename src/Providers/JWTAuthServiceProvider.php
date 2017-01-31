@@ -16,11 +16,10 @@ use Tymon\JWTAuth\Blacklist;
 use Tymon\JWTAuth\JWTManager;
 use Tymon\JWTAuth\Claims\Factory;
 use Tymon\JWTAuth\PayloadFactory;
-use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\Commands\JWTGenerateCommand;
 use Tymon\JWTAuth\Validators\PayloadValidator;
 
-class JWTAuthServiceProvider extends ServiceProvider
+class JWTAuthServiceProvider extends BackportServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
