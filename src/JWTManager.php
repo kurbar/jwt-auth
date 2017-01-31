@@ -104,10 +104,10 @@ class JWTManager
 
         // return the new token
         return $this->encode(
-            $this->payloadFactory->make([
+            $this->payloadFactory->make(array(
                 'sub' => $payload['sub'],
                 'iat' => $payload['iat'],
-            ])
+            ))
         );
     }
 
@@ -116,6 +116,7 @@ class JWTManager
      *
      * @param  Token  $token
      * @return bool
+     * @throws JWTException
      */
     public function invalidate(Token $token)
     {
@@ -160,6 +161,7 @@ class JWTManager
      * Set whether the blacklist is enabled.
      *
      * @param bool  $enabled
+     * @return JWTManager
      */
     public function setBlacklistEnabled($enabled)
     {

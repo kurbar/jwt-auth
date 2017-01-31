@@ -55,10 +55,10 @@ abstract class BaseMiddleware
      * @param  array    $payload
      * @return mixed
      */
-    protected function respond($event, $error, $status, $payload = [])
+    protected function respond($event, $error, $status, $payload = array())
     {
         $response = $this->events->fire($event, $payload, true);
 
-        return $response ?: $this->response->json(['error' => $error], $status);
+        return $response ?: $this->response->json(array('error' => $error), $status);
     }
 }

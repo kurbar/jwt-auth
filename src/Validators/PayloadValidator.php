@@ -20,7 +20,7 @@ class PayloadValidator extends AbstractValidator
     /**
      * @var array
      */
-    protected $requiredClaims = ['iss', 'iat', 'exp', 'nbf', 'sub', 'jti'];
+    protected $requiredClaims = array('iss', 'iat', 'exp', 'nbf', 'sub', 'jti');
 
     /**
      * @var int

@@ -32,11 +32,13 @@ class NamshiAdapter extends JWTProvider implements JWTInterface
     {
         parent::__construct($secret, $algo);
 
-        $this->jws = $driver ?: new JWS(['typ' => 'JWT', 'alg' => $algo]);
+        $this->jws = $driver ?: new JWS(array('typ' => 'JWT', 'alg' => $algo));
     }
 
     /**
      * Create a JSON Web Token.
+     *
+     * @param array $payload
      *
      * @return string
      * @throws \Tymon\JWTAuth\Exceptions\JWTException

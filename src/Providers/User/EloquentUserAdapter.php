@@ -35,7 +35,7 @@ class EloquentUserAdapter implements UserInterface
      *
      * @param  mixed  $key
      * @param  mixed  $value
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function getBy($key, $value)
     {

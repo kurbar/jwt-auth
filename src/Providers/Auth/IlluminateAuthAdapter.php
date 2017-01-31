@@ -34,7 +34,7 @@ class IlluminateAuthAdapter implements AuthInterface
      * @param  array  $credentials
      * @return bool
      */
-    public function byCredentials(array $credentials = [])
+    public function byCredentials(array $credentials = array())
     {
         return $this->auth->once($credentials);
     }

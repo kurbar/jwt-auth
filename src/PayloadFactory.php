@@ -45,12 +45,12 @@ class PayloadFactory
     /**
      * @var array
      */
-    protected $defaultClaims = ['iss', 'iat', 'exp', 'nbf', 'jti'];
+    protected $defaultClaims = array('iss', 'iat', 'exp', 'nbf', 'jti');
 
     /**
      * @var array
      */
-    protected $claims = [];
+    protected $claims = array();
 
     /**
      * @param \Tymon\JWTAuth\Claims\Factory  $claimFactory
@@ -70,7 +70,7 @@ class PayloadFactory
      * @param  array  $customClaims
      * @return \Tymon\JWTAuth\Payload
      */
-    public function make(array $customClaims = [])
+    public function make(array $customClaims = array())
     {
         $claims = $this->buildClaims($customClaims)->resolveClaims();
 
@@ -133,7 +133,7 @@ class PayloadFactory
      */
     public function resolveClaims()
     {
-        $resolved = [];
+        $resolved = array();
         foreach ($this->claims as $name => $value) {
             $resolved[] = $this->claimFactory->get($name, $value);
         }

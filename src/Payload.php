@@ -22,7 +22,7 @@ class Payload implements \ArrayAccess
      *
      * @var \Tymon\JWTAuth\Claims\Claim[]
      */
-    private $claims = [];
+    private $claims = array();
 
     /**
      * Build the Payload.
@@ -55,7 +55,7 @@ class Payload implements \ArrayAccess
      */
     public function toArray()
     {
-        $results = [];
+        $results = array();
         foreach ($this->claims as $claim) {
             $results[$claim->getName()] = $claim->getValue();
         }
@@ -73,7 +73,7 @@ class Payload implements \ArrayAccess
     {
         if (! is_null($claim)) {
             if (is_array($claim)) {
-                return array_map([$this, 'get'], $claim);
+                return array_map(array($this, 'get'), $claim);
             }
 
             return array_get($this->toArray(), $claim, false);
@@ -122,7 +122,7 @@ class Payload implements \ArrayAccess
      */
     public function offsetGet($key)
     {
-        return array_get($this->toArray(), $key, []);
+        return array_get($this->toArray(), $key, array());
     }
 
     /**

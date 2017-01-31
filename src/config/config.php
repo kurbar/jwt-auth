@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-return [
+return array(
 
     /*
     |--------------------------------------------------------------------------
@@ -98,7 +98,7 @@ return [
     |
     */
 
-    'required_claims' => ['iss', 'iat', 'exp', 'nbf', 'sub', 'jti'],
+    'required_claims' => array('iss', 'iat', 'exp', 'nbf', 'sub', 'jti'),
 
     /*
     |--------------------------------------------------------------------------
@@ -121,7 +121,7 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -168,6 +168,6 @@ return [
 
         'storage' => 'Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter',
 
-    ],
+    ),
 
-];
+);

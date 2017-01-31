@@ -18,7 +18,7 @@ interface UserInterface
      *
      * @param string $key
      * @param mixed $value
-     * @return Illuminate\Database\Eloquent\Model|null
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function getBy($key, $value);
 }

@@ -19,7 +19,7 @@ interface AuthInterface
      * @param  array  $credentials
      * @return bool
      */
-    public function byCredentials(array $credentials = []);
+    public function byCredentials(array $credentials = array());
 
     /**
      * Authenticate a user via the id.

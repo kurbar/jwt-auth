@@ -30,9 +30,9 @@ class RefreshToken extends BaseMiddleware
         try {
             $newToken = $this->auth->setRequest($request)->parseToken()->refresh();
         } catch (TokenExpiredException $e) {
-            return $this->respond('tymon.jwt.expired', 'token_expired', $e->getStatusCode(), [$e]);
+            return $this->respond('tymon.jwt.expired', 'token_expired', $e->getStatusCode(), array($e));
         } catch (JWTException $e) {
-            return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), [$e]);
+            return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), array($e));
         }
 
         // send the refreshed token back to the client

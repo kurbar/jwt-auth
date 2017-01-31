@@ -58,7 +58,7 @@ class Blacklist
         // of `exp` and `iat+refresh_ttl`), rounded up a minute
         $cacheLifetime = $exp->max($refreshExp)->addMinute()->diffInMinutes();
 
-        $this->storage->add($payload['jti'], [], $cacheLifetime);
+        $this->storage->add($payload['jti'], array(), $cacheLifetime);
 
         return true;
     }

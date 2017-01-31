@@ -16,7 +16,7 @@ class Factory
     /**
      * @var array
      */
-    private static $classMap = [
+    private static $classMap = array(
         'aud' => 'Tymon\JWTAuth\Claims\Audience',
         'exp' => 'Tymon\JWTAuth\Claims\Expiration',
         'iat' => 'Tymon\JWTAuth\Claims\IssuedAt',
@@ -24,7 +24,7 @@ class Factory
         'jti' => 'Tymon\JWTAuth\Claims\JwtId',
         'nbf' => 'Tymon\JWTAuth\Claims\NotBefore',
         'sub' => 'Tymon\JWTAuth\Claims\Subject',
-    ];
+    );
 
     /**
      * Get the instance of the claim when passing the name and value.
