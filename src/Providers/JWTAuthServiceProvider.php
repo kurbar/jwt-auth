@@ -110,7 +110,7 @@ class JWTAuthServiceProvider extends BackportServiceProvider
         $this->registerPayloadFactory();
         $this->registerJWTCommand();
 
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'jwt');
+//        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'jwt');
     }
 
     /**
