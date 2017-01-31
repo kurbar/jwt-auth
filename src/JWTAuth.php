@@ -77,7 +77,7 @@ class JWTAuth
      * @param  array  $customClaims
      * @return string
      */
-    public function fromUser($user, array $customClaims = [])
+    public function fromUser($user, array $customClaims = array())
     {
         $payload = $this->makePayload($user->{$this->identifier}, $customClaims);
 
@@ -91,7 +91,7 @@ class JWTAuth
      * @param  array  $customClaims
      * @return false|string
      */
-    public function attempt(array $credentials = [], array $customClaims = [])
+    public function attempt(array $credentials = array(), array $customClaims = array())
     {
         if (! $this->auth->byCredentials($credentials)) {
             return false;
@@ -179,6 +179,7 @@ class JWTAuth
      *
      * @param  string  $query
      * @return JWTAuth
+     * @throws JWTException
      */
     public function parseToken($query = 'token')
     {
@@ -216,10 +217,10 @@ class JWTAuth
      * @param  array  $customClaims
      * @return \Tymon\JWTAuth\Payload
      */
-    protected function makePayload($subject, array $customClaims = [])
+    protected function makePayload($subject, array $customClaims = array())
     {
         return $this->manager->getPayloadFactory()->make(
-            array_merge($customClaims, ['sub' => $subject])
+            array_merge($customClaims, array('sub' => $subject))
         );
     }
 
@@ -279,6 +280,7 @@ class JWTAuth
      * Set the request instance
      *
      * @param Request  $request
+     * @return JWTAuth
      */
     public function setRequest(Request $request)
     {
@@ -308,7 +310,7 @@ class JWTAuth
     public function __call($method, $parameters)
     {
         if (method_exists($this->manager, $method)) {
-            return call_user_func_array([$this->manager, $method], $parameters);
+            return call_user_func_array(array($this->manager, $method), $parameters);
         }
 
         throw new \BadMethodCallException("Method [$method] does not exist.");

@@ -97,7 +97,7 @@ abstract class Claim implements ClaimInterface
      */
     public function toArray()
     {
-        return [$this->getName() => $this->getValue()];
+        return array($this->getName() => $this->getValue());
     }
 
     /**

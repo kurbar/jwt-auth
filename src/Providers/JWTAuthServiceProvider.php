@@ -116,8 +116,9 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerUserProvider()
     {
-        $this->app['tymon.jwt.provider.user'] = $this->app->share(function ($app) {
-            return $app->make($this->config('providers.user'), [$app->make($this->config('user'))]);
+	    $self = $this;
+        $this->app['tymon.jwt.provider.user'] = $this->app->share(function ($app) use ($self) {
+            return $app->make($self->config('providers.user'), array($app->make($self->config('user'))));
         });
     }
 
@@ -126,13 +127,14 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerJWTProvider()
     {
-        $this->app['tymon.jwt.provider.jwt'] = $this->app->share(function ($app) {
+    	$self = $this;
+        $this->app['tymon.jwt.provider.jwt'] = $this->app->share(function ($app) use ($self) {
 
-            $secret = $this->config('secret');
-            $algo = $this->config('algo');
-            $provider = $this->config('providers.jwt');
+            $secret = $self->config('secret');
+            $algo = $self->config('algo');
+            $provider = $self->config('providers.jwt');
 
-            return $app->make($provider, [$secret, $algo]);
+            return $app->make($provider, array($secret, $algo));
         });
     }
 
@@ -141,8 +143,9 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerAuthProvider()
     {
-        $this->app['tymon.jwt.provider.auth'] = $this->app->share(function ($app) {
-            return $app->make($this->config('providers.auth'), [ $app['auth'] ]);
+	    $self = $this;
+        $this->app['tymon.jwt.provider.auth'] = $this->app->share(function ($app) use ($self) {
+            return $app->make($self->config('providers.auth'), array($app['auth']));
         });
     }
 
@@ -151,8 +154,9 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerStorageProvider()
     {
-        $this->app['tymon.jwt.provider.storage'] = $this->app->share(function ($app) {
-            return $app->make($this->config('providers.storage'), [ $app['cache'] ]);
+	    $self = $this;
+        $this->app['tymon.jwt.provider.storage'] = $this->app->share(function ($app) use ($self) {
+            return $app->make($self->config('providers.storage'), array($app['cache']));
         });
     }
 
@@ -171,10 +175,11 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerPayloadFactory()
     {
-        $this->app['tymon.jwt.payload.factory'] = $this->app->share(function ($app) {
+	    $self = $this;
+        $this->app['tymon.jwt.payload.factory'] = $this->app->share(function ($app) use ($self) {
             $factory = new PayloadFactory($app['tymon.jwt.claim.factory'], $app['request'], $app['tymon.jwt.validators.payload']);
 
-            return $factory->setTTL($this->config('ttl'));
+            return $factory->setTTL($self->config('ttl'));
         });
     }
 
@@ -183,7 +188,8 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerJWTManager()
     {
-        $this->app['tymon.jwt.manager'] = $this->app->share(function ($app) {
+	    $self = $this;
+        $this->app['tymon.jwt.manager'] = $this->app->share(function ($app) use ($self) {
 
             $instance = new JWTManager(
                 $app['tymon.jwt.provider.jwt'],
@@ -191,7 +197,7 @@ class JWTAuthServiceProvider extends ServiceProvider
                 $app['tymon.jwt.payload.factory']
             );
 
-            return $instance->setBlacklistEnabled((bool) $this->config('blacklist_enabled'));
+            return $instance->setBlacklistEnabled((bool) $self->config('blacklist_enabled'));
         });
     }
 
@@ -200,7 +206,8 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerJWTAuth()
     {
-        $this->app['tymon.jwt.auth'] = $this->app->share(function ($app) {
+	    $self = $this;
+        $this->app['tymon.jwt.auth'] = $this->app->share(function ($app) use ($self) {
 
             $auth = new JWTAuth(
                 $app['tymon.jwt.manager'],
@@ -209,7 +216,7 @@ class JWTAuthServiceProvider extends ServiceProvider
                 $app['request']
             );
 
-            return $auth->setIdentifier($this->config('identifier'));
+            return $auth->setIdentifier($self->config('identifier'));
         });
     }
 
@@ -228,8 +235,9 @@ class JWTAuthServiceProvider extends ServiceProvider
      */
     protected function registerPayloadValidator()
     {
-        $this->app['tymon.jwt.validators.payload'] = $this->app->share(function () {
-            return with(new PayloadValidator)->setRequiredClaims($this->config('required_claims'));
+	    $self = $this;
+        $this->app['tymon.jwt.validators.payload'] = $this->app->share(function () use ($self) {
+            return with(new PayloadValidator)->setRequiredClaims($self->config('required_claims'));
         });
     }
 
@@ -256,6 +264,7 @@ class JWTAuthServiceProvider extends ServiceProvider
     /**
      * Helper to get the config values
      * @param string $key
+     * @param mixed $default
      * @return string
      */
     protected function config($key, $default = null)

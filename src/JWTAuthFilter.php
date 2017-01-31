@@ -39,9 +39,9 @@ class JWTAuthFilter
         try {
             $user = $this->auth->toUser($token);
         } catch (TokenExpiredException $e) {
-            return $this->respond('tymon.jwt.expired', 'token_expired', $e->getStatusCode(), [$e]);
+            return $this->respond('tymon.jwt.expired', 'token_expired', $e->getStatusCode(), array($e));
         } catch (JWTException $e) {
-            return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), [$e]);
+            return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), array($e));
         }
 
         if (! $user) {
@@ -59,10 +59,10 @@ class JWTAuthFilter
      * @param  integer  $status
      * @return mixed
      */
-    protected function respond($event, $error, $status, $payload = [])
+    protected function respond($event, $error, $status, $payload = array())
     {
         $response = $this->events->fire($event, $payload, true);
 
-        return $response ?: Response::json(['error' => $error], $status);
+        return $response ?: Response::json(array('error' => $error), $status);
     }
 }

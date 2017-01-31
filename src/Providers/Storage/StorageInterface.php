@@ -6,6 +6,7 @@ interface StorageInterface
 {
     /**
      * @param string $key
+     * @param mixed $value
      * @param integer $minutes
      * @return void
      */

@@ -38,7 +38,7 @@ class Blacklist
         // add a minute to abate potential overlap
         $minutes = $exp->diffInMinutes(Utils::now()->subMinute());
 
-        $this->storage->add($payload['jti'], [], $minutes);
+        $this->storage->add($payload['jti'], array(), $minutes);
 
         return true;
     }

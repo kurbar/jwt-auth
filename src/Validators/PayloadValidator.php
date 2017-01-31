@@ -11,7 +11,7 @@ class PayloadValidator extends AbstractValidator
     /**
      * @var array
      */
-    protected $requiredClaims = ['iss', 'iat', 'exp', 'nbf', 'sub', 'jti'];
+    protected $requiredClaims = array('iss', 'iat', 'exp', 'nbf', 'sub', 'jti');
 
     /**
      * @var integer
@@ -82,6 +82,7 @@ class PayloadValidator extends AbstractValidator
      *
      * @param  $payload
      * @return bool
+     * @throws TokenExpiredException
      */
     protected function validateRefresh(array $payload)
     {
@@ -96,6 +97,7 @@ class PayloadValidator extends AbstractValidator
      * Set the required claims
      *
      * @param array  $claims
+     * @return PayloadValidator
      */
     public function setRequiredClaims(array $claims)
     {
@@ -108,6 +110,7 @@ class PayloadValidator extends AbstractValidator
      * Set the refresh ttl
      *
      * @param integer  $ttl
+     * @return PayloadValidator
      */
     public function setRefreshTTL($ttl)
     {

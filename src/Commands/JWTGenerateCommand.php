@@ -70,7 +70,7 @@ class JWTGenerateCommand extends Command
 
         $contents = $this->files->get($path = $this->laravel['path']."/config/packages/tymon/jwt-auth/{$env}config.php");
 
-        return [$path, $contents];
+        return array($path, $contents);
     }
 
     /**
