@@ -3,7 +3,7 @@
 namespace Tymon\JWTAuth;
 
 use Illuminate\Events\Dispatcher;
-use Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
@@ -57,12 +57,16 @@ class JWTAuthFilter
      * @param  string   $event
      * @param  string   $error
      * @param  integer  $status
+     * @param array $payload
      * @return mixed
      */
     protected function respond($event, $error, $status, $payload = array())
     {
         $response = $this->events->fire($event, $payload, true);
 
-        return $response ?: Response::json(array('error' => $error), $status);
+        return $response ?: new JsonResponse(array(
+        	'status_code' => $status,
+        	'message' => $error,
+        ), $status);
     }
 }
