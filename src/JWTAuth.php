@@ -183,13 +183,20 @@ class JWTAuth
      */
     public function parseToken($query = 'token')
     {
-        if (! $token = $this->parseAuthHeader()) {
-            if (! $token = $this->request->query($query, false)) {
-                throw new JWTException('The token could not be parsed from the request', 400);
+        if (!$token = $this->parseCookie($query)) {
+            if (!$token = $this->parseAuthHeader()) {
+                if (!$token = $this->request->query($query, false)) {
+                    throw new JWTException('The token could not be parsed from the request', 400);
+                }
             }
         }
 
         return $this->setToken($token);
+    }
+
+    protected function parseCookie($name = 'token')
+    {
+        return $this->request->cookie($name, false);
     }
 
     /**
