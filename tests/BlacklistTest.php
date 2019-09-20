@@ -68,8 +68,18 @@ class BlacklistTest extends AbstractTestCase
 
         $payload = new Payload($collection, $this->validator);
 
-        $this->storage->shouldReceive('add')->with('foo', ['valid_until' => $this->testNowTimestamp], 20161)->once();
-        $this->blacklist->add($payload);
+        $refreshTTL = 20161;
+
+        $this->storage->shouldReceive('get')
+            ->with('foo')
+            ->once()
+            ->andReturn([]);
+
+        $this->storage->shouldReceive('add')
+            ->with('foo', ['valid_until' => $this->testNowTimestamp], $refreshTTL + 1)
+            ->once();
+
+        $this->blacklist->setRefreshTTL($refreshTTL)->add($payload);
     }
 
     /** @test */
@@ -109,8 +119,49 @@ class BlacklistTest extends AbstractTestCase
 
         $payload = new Payload($collection, $this->validator, true);
 
-        $this->storage->shouldReceive('add')->with('foo', ['valid_until' => $this->testNowTimestamp], 20161)->once();
-        $this->assertTrue($this->blacklist->add($payload));
+        $refreshTTL = 20161;
+
+        $this->storage->shouldReceive('get')
+            ->with('foo')
+            ->once()
+            ->andReturn([]);
+
+        $this->storage->shouldReceive('add')
+            ->with('foo', ['valid_until' => $this->testNowTimestamp], $refreshTTL + 1)
+            ->once();
+
+        $this->assertTrue($this->blacklist->setRefreshTTL($refreshTTL)->add($payload));
+    }
+
+    /** @test */
+    public function it_should_return_true_early_when_adding_an_item_and_it_already_exists()
+    {
+        $claims = [
+            new Subject(1),
+            new Issuer('http://example.com'),
+            new Expiration($this->testNowTimestamp - 3600),
+            new NotBefore($this->testNowTimestamp),
+            new IssuedAt($this->testNowTimestamp),
+            new JwtId('foo'),
+        ];
+        $collection = Collection::make($claims);
+
+        $this->validator->shouldReceive('setRefreshFlow->check')->andReturn($collection);
+
+        $payload = new Payload($collection, $this->validator, true);
+
+        $refreshTTL = 20161;
+
+        $this->storage->shouldReceive('get')
+            ->with('foo')
+            ->once()
+            ->andReturn(['valid_until' => $this->testNowTimestamp]);
+
+        $this->storage->shouldReceive('add')
+            ->with('foo', ['valid_until' => $this->testNowTimestamp], $refreshTTL + 1)
+            ->never();
+
+        $this->assertTrue($this->blacklist->setRefreshTTL($refreshTTL)->add($payload));
     }
 
     /** @test */
